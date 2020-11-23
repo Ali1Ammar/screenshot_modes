@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter 
   device_preview: ^0.5.5
+  provider: ^4.3.2+2
 
 dev_dependencies:
   flutter_test:

@@ -32,6 +32,7 @@ dependencies:
   path:
   screenshot_modes:
     path: ../
+  provider:
 dev_dependencies:
   flutter_test:
     sdk: flutter
