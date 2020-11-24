@@ -1,6 +1,6 @@
 name: screenshot_modes
 description: easy automatice way for take screenshot for your app , screenshot mode  work as plugin for device_preview package 
-version: 0.0.3
+version: 0.0.4
 repository: https://github.com/Ali1Ammar/screenshot_modes
 homepage: https://github.com/Ali1Ammar/screenshot_modes
 
