@@ -12,11 +12,11 @@ class ItemScreenMode {
   const ItemScreenMode({this.function, this.modes, this.label});
 
   /// function to navigate to next screen
-  final AyncCallbackContext function;
+  final AyncCallbackContext? function;
 
   /// modes , used if you have nested like device frame , dark light mode before page
-  final List<ItemScreenMode> modes;
+  final List<ItemScreenMode>? modes;
 
   /// label helps with naming the image in processor
-  final Object label;
+  final Object? label;
 }

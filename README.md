@@ -3,7 +3,7 @@
 <h3 align="center">easy screenshot take for your app</h3>
 
 
-<h4>screenshot_modes is a flutter package that work as a plugin for device preview package, take automatice screenshots for pages app  </h4>
+<h4>screenshot_modes is a flutter package that work as a plugin for device preview package, take automatics screenshots for pages app  </h4>
 
 
 
@@ -14,7 +14,7 @@
 
 ## setup this plugin 
 
-#0- you will need to setup [device preview](https://pub.dev/packages/device_preview') package first before using this plugin. it is just a few step.
+- 0-  you will need to setup [device preview](https://pub.dev/packages/device_preview) package first before using this plugin. it is just a few step.
 
 ##  simple mode :
 * simple mode you will just select device frame you want and function navigate to page and the plugin will make it work , 
@@ -83,12 +83,12 @@ Future<String> saveScreenShot(DeviceScreenshotWithLabel screen) async {
   final imageFile = File(path);
   await imageFile.create(recursive: true);
   await imageFile.writeAsBytes(screen.deviceScreenshot.bytes);
-  return '$path saved'; // messege printed to device preview plugins windwos;
+  return '$path saved'; // message printed to device preview plugins windows;
 }
 ```
 * 5- click the new button(screenshot mode) in device preview tabs and that it.
 
-## advanced way ( simple way actually depens on it )
+## advanced way ( simple way actually depend on it )
 
 #1-  define ScreenShotModesPlugin
 ```dart
@@ -121,7 +121,7 @@ Future<String> saveScreenShot(DeviceScreenshotWithLabel screen) async {
   final imageFile = File(path);
   await imageFile.create(recursive: true);
   await imageFile.writeAsBytes(screen.deviceScreenshot.bytes);
-  return '$path saved'; // messege printed to device preview plugins windwos;
+  return '$path saved'; // message printed to device preview plugins windows;
 }
 ```
 
@@ -135,7 +135,7 @@ Future<String> saveScreenShot(DeviceScreenshotWithLabel screen) async {
 ];
  ```
 
-* with theme moode change
+* with theme mode change
 ```dart
 
 final listPush = [
@@ -191,7 +191,7 @@ final listPush = [
 ];
 ```
 
-#5- click the new button(screenshot mode) in device preview tabs 
+* 5- click the new button(screenshot mode) in device preview tabs 
 
 # what is ItemScreenMode : 
 <h4>it is represents every screenshot we will take </h4>
@@ -215,8 +215,8 @@ maybe also get some data from database or api before navigate
 
 
 # could i set function parameter for ItemScreenMode to  null  ?
-yes when  you dont need to do any things before first shot taken maybe when you already inside home page (defalut page) and in right themes mode
-tips : dont do that if you have multi nested page 
+yes when  you don't need to do any things before first shot taken maybe when you already inside home page (defalut page) and in right themes mode
+tips : don't do that if you have multi nested page 
 
 # why we must use DirectPageRouteBuilder for navigation
 
@@ -233,12 +233,14 @@ Future pushFirst() async {
 
 because the MaterialPageRoute have 500ms Duration for animations 
 this will cause as a problem with screenshot 
-so we must etiher use DirectPageRouteBuilder or await 500ms Duration after Navigation inside ItemScreenMode function
-
+so we must either use DirectPageRouteBuilder or await 500ms Duration after Navigation inside ItemScreenMode function
+#
 # we prefers to use this plugin on desktop 
+
+
 # TODO :
-  *  resizeing the image for every mode ( so we could resized it to the size required by google play or app store)
-  * imporve the way for nameing image  .
+  *  resizing the image for every mode ( so we could resized  to the size required by google play or app store) ( now could done in saveScreenShot function )
+  * improve the way for naming image  .
   
 
 

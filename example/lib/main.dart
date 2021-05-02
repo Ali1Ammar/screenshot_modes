@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
@@ -7,8 +6,6 @@ import 'package:example/simple.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:screenshot_modes/screenshot_modes.dart';
-import 'advanced.dart';
-
 
 /*
 this example do this
@@ -19,10 +16,11 @@ change theme mode from light to dark ( toggle mode) then take screenshot above
 */
 void main() {
   runApp(DevicePreview(
-    builder: (_) => MyApp(),
+    builder: (_) =>
+        MaterialApp(builder: DevicePreview.appBuilder, home: MyApp()),
     plugins: [
       // you only need one ethier simple way or advanced way
-     // advancedScreenShotModesPlugin,
+      // advancedScreenShotModesPlugin,
       simpleScreenShotModesPlugin
     ],
   ));

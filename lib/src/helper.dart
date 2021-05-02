@@ -32,14 +32,9 @@ abstract class DevicePreviewHelper {
 }
 
 class DirectPageRouteBuilder extends PageRouteBuilder {
-  DirectPageRouteBuilder({@required WidgetBuilder builder})
+  DirectPageRouteBuilder({required WidgetBuilder builder})
       : super(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 builder(context),
             transitionDuration: Duration.zero);
-}
-
-extension ListHelper on List {
-  bool get isEmptyOrNull => this == null || this.isEmpty;
-  bool get isNotEmptyNotNull => this != null && this.isNotEmpty;
 }

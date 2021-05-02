@@ -2,10 +2,8 @@ import 'dart:ui';
 import 'package:device_preview/device_preview.dart';
 import 'package:device_preview/plugins.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'modal.dart';
-import 'helper.dart';
 
 typedef AyncCallbackContext = Future<void> Function(BuildContext context);
 
@@ -16,7 +14,7 @@ typedef AyncCallbackContext = Future<void> Function(BuildContext context);
 /// a [DevicePreview].
 class ScreenShotModesPlugin extends DevicePreviewPlugin {
   const ScreenShotModesPlugin(
-      {@required this.processor, @required this.modes, this.onEnd})
+      {required this.processor, required this.modes, this.onEnd})
       : super(
           identifier: 'screenshot-mode',
           name: 'Screenshot mode',
@@ -33,7 +31,7 @@ class ScreenShotModesPlugin extends DevicePreviewPlugin {
   /// label helps with naming the image in processor
   /// modes , used if you have nested like device frame , dark light mode before page
   final List<ItemScreenMode> modes;
-  final void Function(BuildContext) onEnd;
+  final void Function(BuildContext)? onEnd;
 
   @override
   Widget buildData(
@@ -59,14 +57,14 @@ typedef ScreenshotProcessor = Future<String> Function(
 
 class _Screenshot extends StatefulWidget {
   const _Screenshot({
-    Key key,
-    @required this.processor,
-    @required this.modes,
+    Key? key,
+    required this.processor,
+    required this.modes,
     this.onEnd,
   }) : super(key: key);
   final List<ItemScreenMode> modes;
   final ScreenshotProcessor processor;
-  final void Function(BuildContext) onEnd;
+  final void Function(BuildContext)? onEnd;
   @override
   _ScreenshotState createState() => _ScreenshotState();
 }
@@ -77,7 +75,7 @@ class _ScreenshotState extends State<_Screenshot> {
   dynamic error;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (isend) {
         setState(() {
           isend = false;
@@ -97,12 +95,13 @@ class _ScreenshotState extends State<_Screenshot> {
   Future<void> _takeScreen(
       List<ItemScreenMode> modes, List<Object> label) async {
     for (final mode in modes) {
-      await mode?.function?.call(context);
-      if (mode.modes.isNotEmptyNotNull) {
-        await _takeScreen(mode.modes, [...label, mode.label]);
+      await mode.function?.call(context);
+      if (mode.modes != null) {
+        await _takeScreen(
+            mode.modes!, [...label, if (mode.label != null) mode.label!]);
       } else {
         await Future.delayed(Duration(milliseconds: 400));
-        await _take([...label, mode.label]);
+        await _take([...label, if (mode.label != null) mode.label!]);
         await Future.delayed(Duration(milliseconds: 40));
       }
     }
@@ -140,7 +139,7 @@ class _ScreenshotState extends State<_Screenshot> {
         ),
       );
     }
-    if (link != null && link.isNotEmpty) {
+    if (link.isNotEmpty) {
       return SingleChildScrollView(
         child: Padding(
           padding: theme.toolBar.spacing.regular,
@@ -149,7 +148,7 @@ class _ScreenshotState extends State<_Screenshot> {
               isend ? Text("endinggg") : Text("still"),
               ...link
                   .map((e) => Text(
-                        e,
+                        e.toString(),
                         style: theme.toolBar.fontStyles.body.copyWith(
                           color: theme.toolBar.foregroundColor,
                         ),

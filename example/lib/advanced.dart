@@ -40,7 +40,7 @@ Future<void> changeModeDarkLight(BuildContext context) async {
 }
 
 Future<void> setModeTo(BuildContext context, ThemeMode mode) async {
-  Navigator.of(navigatorKey.currentContext)
+  Navigator.of(navigatorKey.currentContext!)
       .push(DirectPageRouteBuilder(builder: (_) => HomePage()));
   final store = DevicePreviewHelper.getDevicePreviewStore(context);
   if (store.data.isDarkMode && mode == ThemeMode.light) {
