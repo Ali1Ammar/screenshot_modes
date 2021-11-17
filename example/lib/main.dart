@@ -17,7 +17,7 @@ change theme mode from light to dark ( toggle mode) then take screenshot above
 void main() {
   runApp(DevicePreview(
     builder: (_) =>
-        MaterialApp(builder: DevicePreview.appBuilder, home: MyApp()),
+         MyApp(),
     plugins: [
       // you only need one ethier simple way or advanced way
       // advancedScreenShotModesPlugin,

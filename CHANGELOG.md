@@ -1,4 +1,8 @@
 ## [0.0.5]
+* support language change 
+* upgrade  deps
+
+## [0.0.5]
 * null safety support
 * format code with dartfmt
 * improve readme

@@ -31,6 +31,7 @@ final simpleScreenShotModesPlugin = SimpleScreenShot(
     Devices.ios.iPadMini.identifier,
     Devices.android.samsungS20.identifier,
   ],
+  lang: [Locale('ar') , Locale('en') ] ,
   useToggleDarkMode: true,
 );
 

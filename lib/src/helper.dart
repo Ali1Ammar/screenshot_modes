@@ -25,6 +25,12 @@ abstract class DevicePreviewHelper {
       setMode(context, ThemeMode.light);
   static void setDarkMode(BuildContext context) =>
       setMode(context, ThemeMode.dark);
+
+  static void setLang(BuildContext context, Locale lang) {
+    final store = getDevicePreviewStore(context);
+    store.data = store.data.copyWith(locale: lang.toString());
+  }
+
   static void changeDevice(
       BuildContext context, DeviceIdentifier device) async {
     DevicePreviewHelper.getDevicePreviewStore(context).selectDevice(device);

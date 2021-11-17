@@ -1,7 +1,8 @@
 import 'package:device_preview/device_preview.dart';
+
 import 'package:flutter/material.dart';
 import 'package:screenshot_modes/screenshot_modes.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'api_service.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -30,15 +31,19 @@ Future pushSecond(BuildContext context) async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    var locale2 = DevicePreview.locale(context);
     return MaterialApp(
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        themeMode: mediaQuery.platformBrightness == Brightness.dark
-            ? ThemeMode.dark
-            : ThemeMode.light,
-        builder: DevicePreview.appBuilder,
+        useInheritedMediaQuery: true,
         navigatorKey: navigatorKey,
+        locale: locale2,
+        supportedLocales: [if (locale2 != null) locale2, Locale('en', 'US')],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         home: HomePage());
   }
 }
@@ -48,7 +53,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Page"),
+        title: Text("Home Page ${Localizations.localeOf(context).toString()}"),
       ),
       body: Center(child: Text("Home Page")),
     );
@@ -63,7 +68,7 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FirstPage"),
+        title: Text("FirstPage ${Localizations.localeOf(context).toString()}"),
       ),
       body: Center(child: Text("FirstPage")),
     );
@@ -80,7 +85,7 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SecondPage"),
+        title: Text("SecondPage ${Localizations.localeOf(context).toString()}"),
       ),
       body: Center(
           child: Column(
