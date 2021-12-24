@@ -10,8 +10,8 @@ final simpleScreenShotModesPlugin = SimpleScreenShot(
   pages: listPush,
   lang: [Locale('ar') , Locale('en') ] ,
   devices: [
-    Devices.android.samsungNote10Plus.identifier,
-    Devices.ios.iPhone11ProMax.identifier,
+    Devices.android.samsungGalaxyNote20.identifier ,
+    Devices.ios.iPhone13ProMax.identifier 
   ],
   useToggleDarkMode: true,
 );

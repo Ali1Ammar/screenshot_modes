@@ -1,7 +1,4 @@
-import 'dart:ui';
 import 'package:device_preview/device_preview.dart';
-import 'package:device_preview/plugins.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'modal.dart';
 
@@ -12,15 +9,9 @@ typedef AyncCallbackContext = Future<void> Function(BuildContext context);
 ///
 /// An instance should be provided the the [plugins] constructor property of
 /// a [DevicePreview].
-class ScreenShotModesPlugin extends DevicePreviewPlugin {
+class ScreenShotModesPlugin extends StatelessWidget {
   const ScreenShotModesPlugin(
-      {required this.processor, required this.modes, this.onEnd})
-      : super(
-          identifier: 'screenshot-mode',
-          name: 'Screenshot mode',
-          icon: Icons.photo_camera,
-          windowSize: const Size(220, 220),
-        );
+      {required this.processor, required this.modes, this.onEnd});
 
   /// A screenshot that processes a screenshot and returns the result as a display message.
   ///you must use to save image or uploaded to internet ...
@@ -34,10 +25,8 @@ class ScreenShotModesPlugin extends DevicePreviewPlugin {
   final void Function(BuildContext)? onEnd;
 
   @override
-  Widget buildData(
+  Widget build(
     BuildContext context,
-    Map<String, dynamic> data,
-    updateData,
   ) {
     return _Screenshot(
       processor: processor,
@@ -70,26 +59,21 @@ class _Screenshot extends StatefulWidget {
 }
 
 class _ScreenshotState extends State<_Screenshot> {
-  bool isend = false;
+  bool isLoading = false;
   List<Object> link = [];
   dynamic error;
-  @override
-  void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (isend) {
-        setState(() {
-          isend = false;
-        });
-      }
-      _takeScreen(widget.modes, []).then((_) {
-        setState(() {
-          isend = true;
-        });
-        widget.onEnd?.call(context);
-      });
+  void pressTake() {
+    setState(() {
+      link.clear();
+      isLoading = true;
     });
 
-    super.initState();
+    _takeScreen(widget.modes, []).then((_) {
+      setState(() {
+        isLoading = false;
+      });
+      widget.onEnd?.call(context);
+    });
   }
 
   Future<void> _takeScreen(
@@ -120,49 +104,69 @@ class _ScreenshotState extends State<_Screenshot> {
       setState(() {
         error = e;
       });
+      rethrow;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = DevicePreviewTheme.of(context);
-    if (error != null) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: theme.toolBar.spacing.regular,
-          child: Text(
-            'Error while processing screenshot : $error',
-            style: theme.toolBar.fontStyles.body.copyWith(
-              color: theme.toolBar.foregroundColor,
+    final theme = Theme.of(context);
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 32.0),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            SafeArea(
+              top: false,
+              bottom: false,
+              minimum: const EdgeInsets.only(
+                top: 20,
+                left: 16,
+                right: 16,
+                bottom: 4,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "screenshot mode",
+                    style: theme.textTheme.subtitle2?.copyWith(
+                      color: theme.hintColor,
+                    ),
+                  ),
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : OutlinedButton(
+                          onPressed: pressTake,
+                          child: Text(isLoading ? "Re Take" : "Take")),
+                  if (!isLoading && link.isNotEmpty)
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            link.clear();
+                          });
+                        },
+                        icon: Icon(Icons.clear))
+                ],
+              ),
             ),
-          ),
+            if (error != null)
+              Text(
+                'Error while processing screenshot : $error',
+              ),
+            if (link.isNotEmpty)
+              SizedBox(
+                height: 100,
+                child: ListView.builder(
+                    itemCount: link.length,
+                    itemBuilder: (context, i) {
+                      final item = link[link.length - i - 1];
+                      return Text(item.toString());
+                    }),
+              ),
+            Divider()
+          ],
         ),
-      );
-    }
-    if (link.isNotEmpty) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: theme.toolBar.spacing.regular,
-          child: Column(
-            children: [
-              isend ? Text("endinggg") : Text("still"),
-              ...link
-                  .map((e) => Text(
-                        e.toString(),
-                        style: theme.toolBar.fontStyles.body.copyWith(
-                          color: theme.toolBar.foregroundColor,
-                        ),
-                      ))
-                  .toList()
-            ],
-          ),
-        ),
-      );
-    }
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor:
-            AlwaysStoppedAnimation<Color>(theme.toolBar.foregroundColor),
       ),
     );
   }

@@ -50,10 +50,9 @@ Future<void> setModeTo(BuildContext context, ThemeMode mode) async {
 
 Future<void> setDeviceToNote(BuildContext context) async {
   DevicePreviewHelper.changeDevice(
-      context, Devices.android.samsungNote10Plus.identifier);
+      context, Devices.android.samsungGalaxyNote20Ultra.identifier);
 }
 
 Future<void> setDeviceToIphone(BuildContext context) async {
-  DevicePreviewHelper.getDevicePreviewStore(context)
-      .selectDevice(Devices.ios.iPhone11.identifier);
+  DevicePreviewHelper.changeDevice(context, Devices.ios.iPhone13.identifier);
 }

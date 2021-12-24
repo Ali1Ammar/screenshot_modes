@@ -18,7 +18,8 @@ void main() {
   runApp(DevicePreview(
     builder: (_) =>
          MyApp(),
-    plugins: [
+    tools: [
+              ...DevicePreview.defaultTools,
       // you only need one ethier simple way or advanced way
       // advancedScreenShotModesPlugin,
       simpleScreenShotModesPlugin

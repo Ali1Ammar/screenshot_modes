@@ -1,4 +1,7 @@
-## [0.0.5]
+## [1.0.0]
+* upgrade device_preview to version 1 , breaking change as a lot of implements changed from device_preview 
+
+## [0.0.6]
 * support language change 
 * upgrade  deps
 

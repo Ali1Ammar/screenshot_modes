@@ -12,24 +12,23 @@
 </p>
 
 
-## setup this plugin 
+# setup this plugin 
 
-- 0-  you will need to setup [device preview](https://pub.dev/packages/device_preview) package first before using this plugin. it is just a few step.
+## 0-  you will need to setup [device preview](https://pub.dev/packages/device_preview) package first before using this plugin. it is just a few step.
 
-##  simple mode :
+#  simple mode :
 * simple mode you will just select device frame you want and function navigate to page and the plugin will make it work , 
 will take screenshot for all your page in all frames in dark and light mode.
 ## setup simple mode :
-* 1- first define the plugin:
+## 1- first define the plugin:
 ```dart
 final simpleScreenShotModesPlugin = SimpleScreenShot(
   processor: saveScreenShot,
   pages: listPush,
   devices: [
-    Devices.android.samsungNote10Plus.identifier,
-    Devices.ios.iPhone11ProMax.identifier,
-    Devices.ios.iPadMini.identifier,
-    Devices.android.samsungS20.identifier,
+    Devices.android.samsungGalaxyNote20.identifier,
+    Devices.ios.iPhone13ProMax.identifier,
+    Devices.ios.iPadAir4.identifier,
   ],
   lang: [Locale('ar') , Locale('en') ] ,
   useToggleDarkMode: true,
@@ -41,17 +40,18 @@ final listPush = [
   ItemScreenMode(function: pushSecond, label: 'second'),
 ];
 ```
-* 2- then pass it to device preview
+## 2- then pass it to device preview
 ```dart
   runApp(DevicePreview(
     builder: (_) => MyApp(),
-    plugins: [
+    tools: [
+      ...DevicePreview.defaultTools,
       simpleScreenShotModesPlugin
     ],
   ));
 ```
 
-* 3- also define your push function ( pushHome,pushFirst,pushSecond) define for your page
+## 3- also define your push function ( pushHome,pushFirst,pushSecond) define for your page
 ```dart
 Future pushHome(BuildContext context) async {
   Navigator.of(navigatorKey.currentContext)
@@ -73,8 +73,10 @@ Future pushSecond(BuildContext context) async {
 }
 ```
 it could be just Navigator or maybe call some api get data before Navigate like in pushSecond
+<br></br>
 
-* 4- define saveScreenShot function  this response for saving the image or upload it to some server or that ever you want to do with the image example to save the image in desktop folder
+## 4- define saveScreenShot function 
+ this response for saving the image or upload it to some server or that ever you want to do with the image example to save the image in desktop folder
 
 
 ```dart
@@ -87,23 +89,26 @@ Future<String> saveScreenShot(DeviceScreenshotWithLabel screen) async {
   return '$path saved'; // message printed to device preview plugins windows;
 }
 ```
-* 5- click the new button(screenshot mode) in device preview tabs and that it.
+## 5- click the new button(screenshot mode) in device preview tabs and that it.
 
-## advanced way ( simple way actually depend on it )
+<br></br>______
 
-#1-  define ScreenShotModesPlugin
+# advanced way ( simple way actually depend on it )
+
+## 1-  define ScreenShotModesPlugin
 ```dart
 final screenShotModesPlugin =  ScreenShotModesPlugin(processor: saveScreenShot, modes: _modes );
 ```
 
 
-#2- pass screenShotModesPlugin to DevicePreview
+## 2- pass screenShotModesPlugin to DevicePreview
 
 ```dart
 void main() {
   runApp(DevicePreview(
     builder: (_) => MyApp(),
-    plugins: [
+    tools: [
+      ...DevicePreview.defaultTools,
       screenShotModesPlugin,
     ],
   ));
@@ -112,7 +117,7 @@ void main() {
 
 
 
-#3- define saveScreenShot function  this response for saving the image or upload it to some server or that ever you want to do with the image example to save the image in desktop 
+## 3- define saveScreenShot function  this response for saving the image or upload it to some server or that ever you want to do with the image example to save the image in desktop 
 
 
 ```dart
@@ -126,7 +131,7 @@ Future<String> saveScreenShot(DeviceScreenshotWithLabel screen) async {
 }
 ```
 
-* 4- add item to _modes list 
+## 4- add item to _modes list 
  * simple way 
  ```dart
  final _modes_ = [
@@ -190,10 +195,24 @@ final listPush = [
   ItemScreenMode(function: pushFirst, label: 'first'),
   ItemScreenMode(function: pushSecond, label: 'second'),
 ];
+
+Future<void> setDeviceToNote(BuildContext context) async {
+  DevicePreviewHelper.changeDevice(
+      context, Devices.android.samsungGalaxyNote20Ultra.identifier);
+}
+
+Future<void> setDeviceToIphone(BuildContext context) async {
+  DevicePreviewHelper.changeDevice(context, Devices.ios.iPhone13.identifier)
+}
+
+
 ```
 
-* 5- click the new button(screenshot mode) in device preview tabs 
+you could benefid from ```DevicePreviewHelper``` class to change device , theme and other helper function
 
+
+## 5- click the new button(screenshot mode) in device preview tabs 
+<br></br>_______
 # what is ItemScreenMode : 
 <h4>it is represents every screenshot we will take </h4>
 
@@ -212,12 +231,12 @@ maybe also get some data from database or api before navigate
   like light/dark for all pages and change frame for all pages 
   like in above example
 </h4>
-
-
+<br></br>
 
 # could i set function parameter for ItemScreenMode to  null  ?
 yes when  you don't need to do any things before first shot taken maybe when you already inside home page (defalut page) and in right themes mode
 tips : don't do that if you have multi nested page 
+<br></br>
 
 # why we must use DirectPageRouteBuilder for navigation
 
@@ -235,10 +254,10 @@ Future pushFirst() async {
 because the MaterialPageRoute have 500ms Duration for animations 
 this will cause as a problem with screenshot 
 so we must either use DirectPageRouteBuilder or await 500ms Duration after Navigation inside ItemScreenMode function
-#
+<br></br>
+
 # we prefers to use this plugin on desktop 
-
-
+<br></br>
 # TODO :
   *  resizing the image for every mode ( so we could resized  to the size required by google play or app store) ( now could done in saveScreenShot function )
   * improve the way for naming image  .
