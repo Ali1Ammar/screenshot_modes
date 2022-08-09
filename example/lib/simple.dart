@@ -8,10 +8,10 @@ import 'package:screenshot_modes/screenshot_modes.dart';
 final simpleScreenShotModesPlugin = SimpleScreenShot(
   processor: saveScreenShot,
   pages: listPush,
-  lang: [Locale('ar') , Locale('en') ] ,
+  lang: [Locale('ar'), Locale('en')],
   devices: [
-    Devices.android.samsungGalaxyNote20.identifier ,
-    Devices.ios.iPhone13ProMax.identifier 
+    Devices.android.samsungGalaxyNote20.identifier,
+    Devices.ios.iPhone13ProMax.identifier
   ],
   useToggleDarkMode: true,
 );

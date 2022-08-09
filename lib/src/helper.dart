@@ -12,7 +12,7 @@ abstract class DevicePreviewHelper {
   static isDarkMode(BuildContext context, {bool listen = true}) => listen
       ? Provider.of<DevicePreviewStore>(context, listen: true).data.isDarkMode
       : getDevicePreviewData(context).isDarkMode;
-      
+
   static void toggleMode(BuildContext context) =>
       getDevicePreviewStore(context).toggleDarkMode();
   static void setMode(BuildContext context, ThemeMode mode) {

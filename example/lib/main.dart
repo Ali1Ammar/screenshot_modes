@@ -16,10 +16,9 @@ change theme mode from light to dark ( toggle mode) then take screenshot above
 */
 void main() {
   runApp(DevicePreview(
-    builder: (_) =>
-         MyApp(),
+    builder: (_) => MyApp(),
     tools: [
-              ...DevicePreview.defaultTools,
+      ...DevicePreview.defaultTools,
       // you only need one ethier simple way or advanced way
       // advancedScreenShotModesPlugin,
       simpleScreenShotModesPlugin
