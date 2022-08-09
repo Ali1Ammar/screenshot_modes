@@ -5,11 +5,14 @@ import 'package:provider/provider.dart';
 abstract class DevicePreviewHelper {
   static DevicePreviewStore getDevicePreviewStore(BuildContext context) =>
       Provider.of<DevicePreviewStore>(context, listen: false);
+
   static DevicePreviewData getDevicePreviewData(BuildContext context) =>
       getDevicePreviewStore(context).data;
+
   static isDarkMode(BuildContext context, {bool listen = true}) => listen
       ? Provider.of<DevicePreviewStore>(context, listen: true).data.isDarkMode
       : getDevicePreviewData(context).isDarkMode;
+      
   static void toggleMode(BuildContext context) =>
       getDevicePreviewStore(context).toggleDarkMode();
   static void setMode(BuildContext context, ThemeMode mode) {
