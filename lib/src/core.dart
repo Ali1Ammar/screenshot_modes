@@ -130,7 +130,7 @@ class _ScreenshotState extends State<_Screenshot> {
                 children: [
                   Text(
                     "screenshot mode",
-                    style: theme.textTheme.subtitle2?.copyWith(
+                    style: theme.textTheme.titleSmall?.copyWith(
                       color: theme.hintColor,
                     ),
                   ),
