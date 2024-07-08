@@ -54,6 +54,7 @@ class _Screenshot extends StatefulWidget {
   final List<ItemScreenMode> modes;
   final ScreenshotProcessor processor;
   final void Function(BuildContext)? onEnd;
+
   @override
   _ScreenshotState createState() => _ScreenshotState();
 }
@@ -62,6 +63,7 @@ class _ScreenshotState extends State<_Screenshot> {
   bool isLoading = false;
   List<Object> link = [];
   dynamic error;
+
   void pressTake() {
     setState(() {
       link.clear();
@@ -110,64 +112,46 @@ class _ScreenshotState extends State<_Screenshot> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return SliverPadding(
-      padding: const EdgeInsets.only(bottom: 32.0),
-      sliver: SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            SafeArea(
-              top: false,
-              bottom: false,
-              minimum: const EdgeInsets.only(
-                top: 20,
-                left: 16,
-                right: 16,
-                bottom: 4,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "screenshot mode",
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.hintColor,
-                    ),
-                  ),
-                  isLoading
-                      ? CircularProgressIndicator()
-                      : OutlinedButton(
-                          onPressed: pressTake,
-                          child: Text(isLoading ? "Re Take" : "Take")),
-                  if (!isLoading && link.isNotEmpty)
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            link.clear();
-                          });
-                        },
-                        icon: Icon(Icons.clear))
-                ],
-              ),
-            ),
-            if (error != null)
-              Text(
-                'Error while processing screenshot : $error',
-              ),
-            if (link.isNotEmpty)
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                    itemCount: link.length,
-                    itemBuilder: (context, i) {
-                      final item = link[link.length - i - 1];
-                      return Text(item.toString());
-                    }),
-              ),
-            Divider()
-          ],
+    return ToolPanelSection(title: 'Screenshot Mode', children: [
+      ListTile(
+        title: OutlinedButton(
+          onPressed: pressTake,
+          child: Text(isLoading ? "Re Take" : "Take"),
         ),
+        trailing: isLoading
+            ? SizedBox(
+                width: 20, height: 20, child: CircularProgressIndicator())
+            : null,
       ),
-    );
+      if (!isLoading && link.isNotEmpty)
+        ListTile(
+          title: OutlinedButton(
+            onPressed: () {
+              setState(() {
+                link.clear();
+              });
+            },
+            child: Text("Clear"),
+          ),
+          trailing: null,
+        ),
+      if (error != null)
+        ListTile(
+          title: Text(
+            'Error while processing screenshot : $error',
+          ),
+          textColor: Colors.red,
+        ),
+      if (link.isNotEmpty)
+        ListTile(
+            title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: link.map(
+            (e) {
+              return Text(e.toString());
+            },
+          ).toList(),
+        )),
+    ]);
   }
 }
